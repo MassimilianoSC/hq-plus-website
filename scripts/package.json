@@ -1,0 +1,11 @@
+{
+  "name": "hq-flow-scripts",
+  "private": true,
+  "description": "One-off generators (e.g. sample PDF for the demo).",
+  "scripts": {
+    "build:sample-pdf": "node build-sample-pdf.cjs"
+  },
+  "dependencies": {
+    "pdfkit": "^0.15.0"
+  }
+}

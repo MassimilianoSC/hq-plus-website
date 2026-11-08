@@ -1,0 +1,72 @@
+rules_version = '2';
+
+// HQ | Flow — Production-grade Firestore rules.
+// `leads` is write-only for unauthenticated clients (form submissions), with
+// strict input validation. No client-side reads. Reads happen server-side via
+// admin SDK (Cloud Functions, Firebase console, BigQuery export, etc.).
+//
+// Note: production Cloud Function `submitLead` writes via the Admin SDK and
+// bypasses these rules. These rules exist to harden the database against
+// direct client SDK abuse.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helpers
+    function isString(v, max) {
+      return v is string && v.size() > 0 && v.size() <= max;
+    }
+    function isOptString(v, max) {
+      return !('exists' in {}) || v == null || v == '' || (v is string && v.size() <= max);
+    }
+    function isEmail(v) {
+      return v is string && v.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$') && v.size() <= 254;
+    }
+
+    // Public form submissions: anyone can create, no one can read/update/delete from client.
+    match /leads/{leadId} {
+      allow read, update, delete: if false;
+
+      allow create: if
+        request.resource.data.keys().hasOnly([
+          'name','email','company','role','message',
+          'createdAt','source','userAgent','ip'
+        ])
+        && isString(request.resource.data.name, 120)
+        && isEmail(request.resource.data.email)
+        && isString(request.resource.data.company, 200)
+        && (!('role' in request.resource.data) || request.resource.data.role is string && request.resource.data.role.size() <= 120)
+        && (!('message' in request.resource.data) || request.resource.data.message is string && request.resource.data.message.size() <= 4000)
+        && request.resource.data.source == 'website'
+        && request.resource.data.createdAt == request.time;
+    }
+
+    // Soft email gate from the demo (after 3 free extractions). Same posture
+    // as `leads`: write-only from the client with strict validation, no read.
+    match /demo_leads/{leadId} {
+      allow read, update, delete: if false;
+
+      allow create: if
+        request.resource.data.keys().hasOnly([
+          'email','consentAt','createdAt','anonIp','userAgent',
+          'source','extractionsBefore'
+        ])
+        && isEmail(request.resource.data.email)
+        && request.resource.data.source == 'demo_extraction_gate'
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.consentAt == request.time
+        && request.resource.data.extractionsBefore is int;
+    }
+
+    // Internal counters used by the rate limiter (ip-anonymized hourly buckets).
+    // Not readable/writable by clients — only the Admin SDK touches these.
+    match /rate_limits/{bucket} {
+      allow read, write: if false;
+    }
+
+    // Default deny.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
