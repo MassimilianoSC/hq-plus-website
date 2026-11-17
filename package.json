@@ -1,0 +1,31 @@
+{
+  "name": "hq-plus-website",
+  "private": true,
+  "engines": {
+    "node": ">=22.23.4 <23"
+  },
+  "workspaces": [
+    "apps/site"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace @hq-plus/site",
+    "build": "npm run build --workspace @hq-plus/site",
+    "preview": "npm run preview --workspace @hq-plus/site",
+    "check": "npm run check --workspace @hq-plus/site",
+    "format": "prettier --write \"apps/site/src/**/*.{astro,css,js,jsx,ts,tsx}\" \"apps/site/*.mjs\" \"apps/site/*.json\" \"scripts/*.cjs\" scripts/package.json functions/package.json firebase.json \"docs/**/*.md\" \"memory/**/*.md\" README.md CLAUDE.md package.json",
+    "format:check": "prettier --check \"apps/site/src/**/*.{astro,css,js,jsx,ts,tsx}\" \"apps/site/*.mjs\" \"apps/site/*.json\" \"scripts/*.cjs\" scripts/package.json functions/package.json firebase.json \"docs/**/*.md\" \"memory/**/*.md\" README.md CLAUDE.md package.json",
+    "install:functions": "npm --prefix functions ci",
+    "install:scripts": "npm --prefix scripts ci",
+    "emulators": "firebase emulators:start --only functions,firestore",
+    "emulators:hosting": "npm run build && firebase emulators:start --only hosting,functions,firestore",
+    "build:sample-pdf": "npm --prefix scripts run build:sample-pdf"
+  },
+  "devDependencies": {
+    "firebase-tools": "^15.35.0",
+    "prettier": "^3.9.10",
+    "prettier-plugin-astro": "^1.1.2"
+  },
+  "overrides": {
+    "@grpc/grpc-js": "1.14.7"
+  }
+}

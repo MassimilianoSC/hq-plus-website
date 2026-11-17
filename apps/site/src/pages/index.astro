@@ -1,0 +1,36 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Contact from "@/components/interactive/Contact.jsx";
+import InteractiveDemo from "@/components/interactive/InteractiveDemo.jsx";
+import RobotShowcase from "@/components/interactive/RobotShowcase.jsx";
+import Navbar from "@/components/layout/Navbar.astro";
+import Footer from "@/components/layout/Footer.jsx";
+import DocumentMarquee from "@/components/sections/home/DocumentMarquee.jsx";
+import FAQ from "@/components/sections/home/FAQ.jsx";
+import HeritageStrip from "@/components/sections/home/HeritageStrip.jsx";
+import Hero from "@/components/sections/home/Hero.astro";
+import HowWeStart from "@/components/sections/home/HowWeStart.jsx";
+import HowWeWork from "@/components/sections/home/HowWeWork.jsx";
+import OriginStory from "@/components/sections/home/OriginStory.jsx";
+import UseCases from "@/components/sections/home/UseCases.jsx";
+---
+
+<BaseLayout>
+  <div class="App min-h-screen text-[var(--text-primary)]">
+    <Navbar />
+    <main id="main-content">
+      <Hero />
+      <HeritageStrip />
+      <OriginStory />
+      <HowWeWork />
+      <RobotShowcase client:visible />
+      <DocumentMarquee />
+      <InteractiveDemo client:visible />
+      <UseCases />
+      <HowWeStart />
+      <FAQ />
+      <Contact client:visible />
+    </main>
+    <Footer />
+  </div>
+</BaseLayout>

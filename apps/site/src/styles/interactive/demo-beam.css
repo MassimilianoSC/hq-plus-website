@@ -1,0 +1,73 @@
+/* Demo beam — linea di dati che attraversa la griglia durante l'estrazione PDF.
+   Visibile solo durante loading e solo su layout ≥lg (single column su mobile). */
+.demo-beam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 240ms ease;
+  z-index: 1;
+}
+.demo-beam.is-active {
+  opacity: 1;
+}
+/* Linea base sottile con l'accento del tema, fading ai bordi */
+.demo-beam::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(var(--accent-rgb), 0.18) 15%,
+    rgba(var(--accent-rgb), 0.35) 50%,
+    rgba(var(--accent-rgb), 0.18) 85%,
+    transparent 100%
+  );
+}
+/* Pulse luminoso che viaggia da sinistra a destra */
+.demo-beam::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  width: 100px;
+  height: 10px;
+  background: radial-gradient(
+    ellipse,
+    rgba(var(--accent-rgb), 0.95) 0%,
+    rgba(var(--accent-rgb), 0.5) 35%,
+    transparent 75%
+  );
+  filter: blur(2px);
+  animation: beamPulse 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+@keyframes beamPulse {
+  0% {
+    left: -10%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    left: 110%;
+    opacity: 0;
+  }
+}
+@media (max-width: 1023px) {
+  .demo-beam {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-beam::after {
+    animation: none !important;
+    display: none;
+  }
+}

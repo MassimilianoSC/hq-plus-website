@@ -1,6 +1,6 @@
 {
   "name": "hq-flow-functions",
-  "description": "HQ | Flow — Firebase Cloud Functions (2nd gen).",
+  "description": "HQ Plus — Firebase Cloud Functions (2nd gen).",
   "private": true,
   "engines": {
     "node": "22"

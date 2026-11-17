@@ -1,5 +1,5 @@
 /**
- * HQ | Flow — Firebase Cloud Functions (2nd gen).
+ * HQ Plus — Firebase Cloud Functions (2nd gen).
  *
  * Both functions enforce Firebase App Check (skipped under the Functions
  * emulator for local dev).
@@ -604,7 +604,7 @@ REGOLE DI CONTENUTO
 DA NON FARE
 - NON inventare numeri di ROI o di risparmio ("riduzione del 40%", "tempo risparmiato del 70%").
 - NON citare strumenti commerciali specifici (Salesforce, SAP, HubSpot, Zapier, ecc.). Resta agnostico.
-- NON promettere funzionalità di prodotti specifici di HQ Flow.
+- NON promettere funzionalità di prodotti specifici di HQ Plus.
 - NON duplicare la stessa idea con sinonimi diversi: 3 angoli di automazione differenti.
 - NON dire "i nostri esperti", "ti possiamo aiutare", "contattaci". Niente sales pitch diretto.
 - Output: solo JSON valido conforme allo schema.`;
@@ -851,12 +851,12 @@ const FIRESTORE_CONSOLE_BASE =
   "https://console.firebase.google.com/project/hq-flow-dev/firestore/databases/-default-/data";
 
 const EMAIL_PALETTE = {
-  bg: "#0A0A0A",
-  surface: "#111111",
-  border: "#1F1F1F",
-  text: "#FAFAFA",
-  textMuted: "#A1A1AA",
-  accent: "#00D4FF",
+  bg: "#0B1020",
+  surface: "#18233D",
+  border: "#283149",
+  text: "#F6F8FF",
+  textMuted: "#B5C0D6",
+  accent: "#A08AFF",
 };
 
 function escapeHtml(value) {
@@ -906,7 +906,7 @@ function renderEmailShell({ title, intro, rowsHtml, footerNote, ctaUrl, ctaLabel
     <tr><td align="center">
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:${EMAIL_PALETTE.surface};border:1px solid ${EMAIL_PALETTE.border};border-radius:8px;overflow:hidden;">
         <tr><td style="padding:24px 24px 8px 24px;border-bottom:1px solid ${EMAIL_PALETTE.border};">
-          <div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:${EMAIL_PALETTE.accent};font-size:11px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:8px;">HQ | Flow</div>
+          <div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:${EMAIL_PALETTE.accent};font-size:11px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:8px;">HQ Plus</div>
           <h1 style="margin:0;color:${EMAIL_PALETTE.text};font-size:22px;font-weight:600;letter-spacing:-0.01em;">${escapeHtml(title)}</h1>
           ${intro ? `<p style="margin:8px 0 0 0;color:${EMAIL_PALETTE.textMuted};font-size:14px;line-height:1.55;">${escapeHtml(intro)}</p>` : ""}
         </td></tr>
@@ -956,7 +956,7 @@ exports.notifyOnLead = onDocumentCreated(
       }
 
       const company = (data.company || "").toString().trim() || "azienda non indicata";
-      const subject = `🎯 Nuovo lead da HQ Flow — ${company}`;
+      const subject = `🎯 Nuovo lead da HQ Plus — ${company}`;
       const createdAt = formatItalianDate(data.createdAt) || "—";
       const consoleUrl = firestoreConsoleUrl("leads", leadId);
 
@@ -980,7 +980,7 @@ exports.notifyOnLead = onDocumentCreated(
       });
 
       const text = [
-        "Nuovo lead da HQ Flow",
+        "Nuovo lead da HQ Plus",
         "",
         `Nome: ${data.name || "—"}`,
         `Email: ${data.email || "—"}`,
@@ -994,7 +994,7 @@ exports.notifyOnLead = onDocumentCreated(
 
       const to = process.env.LEAD_NOTIFY_TO;
       await getTransport().sendMail({
-        from: `"HQ Flow Notifiche" <${process.env.GMAIL_USER}>`,
+        from: `"HQ Plus Notifiche" <${process.env.GMAIL_USER}>`,
         to,
         replyTo: data.email || undefined,
         subject,
@@ -1067,7 +1067,7 @@ exports.notifyOnDemoLead = onDocumentCreated(
       });
 
       const text = [
-        "Nuovo demo lead da HQ Flow",
+        "Nuovo lead demo da HQ Plus",
         "",
         `Email: ${data.email || "—"}`,
         `Estrazioni prima del gate: ${extractionsBefore}`,
@@ -1081,7 +1081,7 @@ exports.notifyOnDemoLead = onDocumentCreated(
 
       const to = process.env.LEAD_NOTIFY_TO;
       await getTransport().sendMail({
-        from: `"HQ Flow Notifiche" <${process.env.GMAIL_USER}>`,
+        from: `"HQ Plus Notifiche" <${process.env.GMAIL_USER}>`,
         to,
         replyTo: data.email || undefined,
         subject,

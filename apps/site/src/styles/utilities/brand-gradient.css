@@ -1,0 +1,11 @@
+.brand-gradient-text {
+  background-image: linear-gradient(
+    108deg,
+    var(--hero-gradient-start) 4%,
+    var(--hero-gradient-end) 96%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}

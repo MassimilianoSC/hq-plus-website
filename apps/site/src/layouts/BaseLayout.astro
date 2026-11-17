@@ -1,0 +1,172 @@
+---
+import "@/styles/foundation/tailwind.css";
+import "@/styles/foundation/tokens.css";
+import "@/styles/foundation/base.css";
+import "@/styles/utilities.css";
+import "@/styles/components/effects.css";
+import "@/styles/motion/reveal.css";
+import "@/styles/components/logo.css";
+import "@/styles/components/noise.css";
+import "@/styles/motion/typewriter.css";
+import "@/styles/sections/home/document-marquee.css";
+import "@/styles/interactive/demo-beam.css";
+import "@/styles/motion/loading.css";
+import "@/styles/utilities/brand-gradient.css";
+import "@/styles/site/cosmos.css";
+import "@/styles/sections/home/hero.css";
+import "@/styles/site/section-atmospheres.css";
+import "@/styles/site/responsive.css";
+import "@/styles/site/layout.css";
+import "@/styles/components/buttons.css";
+import "@/styles/site/navigation-controls.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "HQ Plus | AI System Integrator",
+  description = "HQ Plus integra intelligenza artificiale e automazione nei processi e nei sistemi aziendali.",
+} = Astro.props;
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL?.replace(/\/+$/, "");
+const canonicalUrl = siteUrl
+  ? new URL(Astro.url.pathname, `${siteUrl}/`).toString()
+  : undefined;
+const allowIndexing =
+  import.meta.env.PUBLIC_ALLOW_INDEXING === "true" && Boolean(siteUrl);
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f8f9fc" />
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const reducedMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+        const saveData = navigator.connection?.saveData === true;
+        let theme = "light";
+        try {
+          const saved = localStorage.getItem("hq-plus-theme");
+          if (saved === "light" || saved === "dark") theme = saved;
+        } catch {}
+        root.dataset.theme = theme;
+        if (saveData) root.classList.add("save-data");
+        if (!reducedMotion && !saveData) root.dataset.motion = "on";
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.content = theme === "dark" ? "#0b1020" : "#f8f9fc";
+        if (location.pathname === "/") {
+          const logoPreload = document.createElement("link");
+          logoPreload.rel = "preload";
+          logoPreload.as = "image";
+          logoPreload.type = "image/webp";
+          logoPreload.fetchPriority = "high";
+          logoPreload.href =
+            theme === "dark"
+              ? "/images/brand/hq-plus-system-integrator-dark.webp"
+              : "/images/brand/hq-plus-system-integrator.webp";
+          document.head.appendChild(logoPreload);
+        }
+      })();
+    </script>
+    <meta name="description" content={description} />
+    <meta
+      name="robots"
+      content={allowIndexing ? "index, follow" : "noindex, nofollow"}
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="HQ Plus" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary" />
+    <title>{title}</title>
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <slot name="head" />
+  </head>
+  <body>
+    <div class="cosmos-backdrop" aria-hidden="true">
+      <div class="cosmos-nebula"></div>
+      <canvas class="cosmos-canvas" data-cosmos-canvas></canvas>
+    </div>
+    <a class="skip-link" href="#main-content">
+      Vai al contenuto
+    </a>
+    <slot />
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const themeColor = document.querySelector('meta[name="theme-color"]');
+        const setTheme = (theme) => {
+          root.dataset.theme = theme;
+          try {
+            localStorage.setItem("hq-plus-theme", theme);
+          } catch {}
+          if (themeColor) {
+            themeColor.content = theme === "dark" ? "#0b1020" : "#f8f9fc";
+          }
+          document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+            const isDark = theme === "dark";
+            button.setAttribute("aria-pressed", String(isDark));
+            button.setAttribute(
+              "aria-label",
+              isDark ? "Attiva tema chiaro" : "Attiva tema scuro",
+            );
+            button
+              .querySelector('[data-theme-icon="sun"]')
+              ?.classList.toggle("is-active", !isDark);
+            button
+              .querySelector('[data-theme-icon="moon"]')
+              ?.classList.toggle("is-active", isDark);
+          });
+        };
+
+        setTheme(root.dataset.theme === "dark" ? "dark" : "light");
+        document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+          button.addEventListener("click", () => {
+            setTheme(root.dataset.theme === "dark" ? "light" : "dark");
+          });
+        });
+        document.querySelectorAll(".mobile-menu-panel a").forEach((link) => {
+          link.addEventListener("click", () => {
+            link.closest("details")?.removeAttribute("open");
+          });
+        });
+
+        const revealTargets = Array.from(
+          new Set(
+            [
+              ...document.querySelectorAll(".reveal, .cosmic-section"),
+              document.querySelector("#top"),
+            ].filter(Boolean),
+          ),
+        );
+        if (root.dataset.motion === "on" && "IntersectionObserver" in window) {
+          const revealObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                entry.target.classList.toggle("is-visible", entry.isIntersecting);
+              });
+            },
+            { threshold: 0.02, rootMargin: "-60px 0px -60px 0px" },
+          );
+          revealTargets.forEach((element) => revealObserver.observe(element));
+        } else {
+          revealTargets.forEach((element) => element.classList.add("is-visible"));
+        }
+      })();
+    </script>
+    <script>
+      import { initCosmicField } from "@/lib/motion/cosmicField.js";
+      import { initIntegrationMotion } from "@/lib/motion/integrationMotion.js";
+
+      initCosmicField();
+      initIntegrationMotion();
+    </script>
+  </body>
+</html>

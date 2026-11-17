@@ -1,0 +1,135 @@
+.cosmic-section--horizon::before {
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--cosmos-section-blue) 24%,
+      var(--cosmos-section-violet) 72%,
+      transparent
+    ),
+    radial-gradient(ellipse 56% 110% at 50% 110%, var(--cosmos-ring), transparent 73%);
+}
+
+.cosmic-section--birth::before {
+  background:
+    radial-gradient(
+      ellipse 44% 80% at 12% 46%,
+      var(--cosmos-section-blue),
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 42% 80% at 88% 18%,
+      var(--cosmos-section-violet),
+      transparent 74%
+    );
+}
+
+.cosmic-section--orbit::before {
+  background:
+    radial-gradient(
+      ellipse 67% 110% at 104% 45%,
+      transparent 69%,
+      var(--cosmos-ring) 69.2%,
+      transparent 69.8%
+    ),
+    radial-gradient(
+      ellipse 52% 86% at 104% 45%,
+      transparent 70%,
+      var(--cosmos-ring) 70.3%,
+      transparent 71%
+    ),
+    radial-gradient(ellipse at 13% 82%, var(--cosmos-section-blue), transparent 56%);
+}
+
+.cosmic-section--nebula::before {
+  background:
+    radial-gradient(
+      ellipse 48% 88% at 86% 43%,
+      var(--cosmos-section-violet),
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 43% 72% at 7% 84%,
+      var(--cosmos-section-blue),
+      transparent 75%
+    );
+}
+
+.cosmic-section--ribbon::before {
+  background:
+    linear-gradient(
+      105deg,
+      var(--cosmos-section-blue),
+      transparent 32%,
+      var(--cosmos-section-violet) 77%,
+      transparent
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 44%);
+}
+
+.cosmic-section--observatory::before {
+  background:
+    radial-gradient(
+      ellipse 54% 74% at 78% 28%,
+      var(--cosmos-section-violet),
+      transparent 73%
+    ),
+    radial-gradient(
+      ellipse 52% 68% at 16% 84%,
+      var(--cosmos-section-blue),
+      transparent 76%
+    );
+}
+
+.cosmic-section--starfield::before {
+  background:
+    radial-gradient(circle at 15% 28%, var(--cosmos-section-blue), transparent 31%),
+    radial-gradient(circle at 87% 71%, var(--cosmos-section-violet), transparent 32%);
+}
+
+.cosmic-section--supernova::before {
+  background:
+    radial-gradient(
+      ellipse 46% 62% at 52% 48%,
+      var(--cosmos-section-violet),
+      transparent 72%
+    ),
+    radial-gradient(circle at 4% 86%, var(--cosmos-section-blue), transparent 40%);
+}
+
+.cosmic-section--quiet::before {
+  background: radial-gradient(
+    ellipse 72% 62% at 50% 102%,
+    var(--cosmos-section-blue),
+    transparent 72%
+  );
+}
+
+.cosmic-section--contact::before {
+  background:
+    radial-gradient(
+      ellipse 46% 82% at 4% 48%,
+      var(--cosmos-section-blue),
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 40% 74% at 96% 24%,
+      var(--cosmos-section-violet),
+      transparent 74%
+    );
+}
+
+.cosmic-footer {
+  position: relative;
+  z-index: 1;
+  background-color: var(--cosmos-footer-surface);
+}
+
+@keyframes cosmos-nebula-drift {
+  from {
+    transform: translate3d(-0.5%, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(0.5%, 1%, 0) scale(1.035);
+  }
+}

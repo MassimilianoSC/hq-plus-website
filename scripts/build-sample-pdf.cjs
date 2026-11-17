@@ -1,4 +1,4 @@
-// Generate frontend/public/sample-verbale.pdf — a plausible Italian SRB
+// Generate apps/site/public/documents/sample-verbale.pdf — an Italian SRB
 // telco site-survey verbale used by the InteractiveDemo "Prova con un
 // esempio" button. Run with: `npm run build:sample-pdf` from this folder.
 
@@ -6,14 +6,24 @@ const path = require("path");
 const fs = require("fs");
 const PDFDocument = require("pdfkit");
 
-const OUT = path.resolve(__dirname, "..", "frontend", "public", "sample-verbale.pdf");
+const OUT = path.resolve(
+  __dirname,
+  "..",
+  "apps",
+  "site",
+  "public",
+  "documents",
+  "sample-verbale.pdf",
+);
+
+fs.mkdirSync(path.dirname(OUT), { recursive: true });
 
 const doc = new PDFDocument({
   size: "A4",
   margins: { top: 60, bottom: 60, left: 60, right: 60 },
   info: {
-    Title: "Verbale di sopralluogo SRB — Esempio HQ Flow",
-    Author: "HQ | Flow",
+    Title: "Verbale di sopralluogo SRB — Esempio HQ Plus",
+    Author: "HQ Plus",
     Subject: "Documento di esempio per la demo",
   },
 });
@@ -80,7 +90,9 @@ doc
   .text("Altezza palo: 24 m da piano campagna")
   .text("Numero antenne: 3 (settori 0°, 120°, 240°)")
   .text("Potenza ERP per settore: 35 dBW")
-  .text("Conformità FM: verificata, distanze di rispetto rispettate ai sensi del DPCM 8/7/2003");
+  .text(
+    "Conformità FM: verificata, distanze di rispetto rispettate ai sensi del DPCM 8/7/2003",
+  );
 doc.moveDown();
 
 // Importi
@@ -135,7 +147,7 @@ doc
   .fontSize(9)
   .fillColor("#666")
   .text(
-    "Documento di esempio generato automaticamente per la demo di HQ | Flow. " +
+    "Documento di esempio generato automaticamente per la demo di HQ Plus. " +
       "Dati fittizi, nessuna corrispondenza con persone o luoghi reali.",
     { align: "center" },
   );

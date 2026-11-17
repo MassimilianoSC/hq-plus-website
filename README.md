@@ -1,224 +1,121 @@
-# HQ | Flow — Corporate Site
+# HQ Plus website
 
-Single-page corporate website per **HQ | Flow**, sotto-azienda di **HQ | Industrial Assets** (Milano, dal 1999), specializzata in workflow automation con agenti per medie/grandi aziende e PMI italiane.
+Sito corporate HQ Plus realizzato con Astro: la pagina è statica e React è caricato solo
+per le sezioni interattive. Le Firebase Cloud Functions restano in `functions/` e gestiscono
+invio lead e demo documentale.
 
-Sito interamente in **italiano**, dark mode, costruito con React + Tailwind + shadcn/ui. Backend su Firebase (Firestore + Cloud Functions + Hosting + Auth).
+## Requisiti
 
----
+- Node.js `22.23.4` (Node 22, allineato al runtime delle Functions).
+- npm.
+- Firebase CLI, inclusa nelle dipendenze del repository.
+- Java JDK `21+` per usare l'emulatore Firestore.
 
-## Stack
+Su Windows, con nvm-windows, selezionare la versione così:
 
-- **Frontend**: React (Create React App + craco) + TailwindCSS + shadcn/ui + Lucide icons
-- **Font**: Geist (Vercel) via Google Fonts CDN
-- **Backend**: Firebase
-  - Firestore (region `eur3`) — collection `leads`
-  - Cloud Functions (2nd gen, Node.js 20, region `europe-west8`)
-  - Firebase Auth (Email/Password + Google enabled, SDK initialized but not exposed in UI)
-  - Firebase Hosting
-
----
-
-## Project structure
-
-```
-/app
-├── frontend/                  # React app
-│   ├── src/
-│   │   ├── App.js
-│   │   ├── lib/
-│   │   │   ├── firebase.js              # client SDK init (public config)
-│   │   │   ├── extractDocument.js       # MOCKED extraction — single function, swap later
-│   │   │   └── useReveal.js
-│   │   └── components/
-│   │       ├── Logo.jsx
-│   │       └── sections/                # one component per section
-│   └── package.json
-├── functions/                 # Firebase Cloud Functions (Node.js 20)
-│   ├── index.js               # submitLead (HTTP, CORS, rate-limit 5/h/IP)
-│   └── package.json
-├── firebase.json              # hosting + functions + emulators config
-├── .firebaserc                # default project: hq-flow-dev
-├── firestore.rules            # production-grade rules
-├── firestore.indexes.json
-├── .env.example
-└── README.md
+```powershell
+nvm install 22.23.4
+nvm use 22.23.4
+node --version
 ```
 
----
+L'ultima riga deve mostrare `v22.23.4`.
 
-## Setup
+## Prima installazione
 
-```bash
-# 1. Frontend deps
-cd frontend
-yarn install
+Eseguire dalla radice del repository:
 
-# 2. Cloud Functions deps
-cd ../functions
+```powershell
 npm install
-
-# 3. Login to Firebase
-cd ..
-firebase login
-firebase use hq-flow-dev   # uses .firebaserc default
+npm run install:functions
+npm run install:scripts
 ```
 
-> Project `hq-flow-dev` is already provisioned (Firestore eur3, Auth providers enabled, Hosting active, Blaze plan). You should not need `firebase init`.
+## Sviluppo locale
 
----
+Terminale 1:
 
-## Run dev
-
-### Frontend only
-
-```bash
-cd frontend
-yarn start          # http://localhost:3000
+```powershell
+npm run dev
 ```
 
-The contact form posts to `/submitLead`. Without Firebase Hosting locally that path 404s — see "Local end-to-end" below.
+Aprire `http://127.0.0.1:4321`. Per provare i form e gli endpoint con Firebase Emulator,
+aprire un secondo terminale:
 
-### Local end-to-end (emulators)
-
-```bash
-firebase emulators:start
-# Hosting on :5000, Functions on :5001
+```powershell
+npm run emulators
 ```
 
-Or override the endpoint at dev-time:
+Astro inoltra al Functions Emulator le route HTTP già configurate in `firebase.json`.
+I dati restano negli emulatori locali. La Emulator UI è disponibile su
+`http://127.0.0.1:4000`.
 
-```bash
-REACT_APP_SUBMIT_LEAD_URL="http://127.0.0.1:5001/hq-flow-dev/europe-west8/submitLead" yarn start
+Per provare il salvataggio dei form senza spedire notifiche email, creare
+`functions/.secret.local` con `GMAIL_USER=`, `GMAIL_APP_PASSWORD=` e `LEAD_NOTIFY_TO=`.
+I lead restano nell'emulatore Firestore. Il file è escluso da Git. Per testare le email,
+usare credenziali SMTP di test e una casella di destinazione controllata.
+
+Le funzioni di estrazione e suggerimento usano Vertex AI, che non viene emulato. Se
+l'ambiente dispone di credenziali Google Cloud valide, le richieste possono raggiungere
+il servizio reale; durante le prove usare documenti sintetici.
+
+## Controllo e build
+
+```powershell
+npm run check
+npm run build
+npm run preview
 ```
 
----
+La build statica viene generata in `apps/site/dist`; `preview` la serve su
+`http://127.0.0.1:4321`.
 
-## Deploy
+Per visualizzare la build tramite Firebase Hosting Emulator e verificare i rewrite:
 
-```bash
-# Build the frontend
-cd frontend && yarn build && cd ..
-
-# Deploy everything
-firebase deploy
-
-# Or selectively
-firebase deploy --only hosting
-firebase deploy --only functions
-firebase deploy --only firestore:rules
+```powershell
+npm run emulators:hosting
 ```
 
-After deploy:
+Aprire `http://127.0.0.1:5000`.
 
-- Site: <https://hq-flow-dev.web.app>
-- Function URL: <https://europe-west8-hq-flow-dev.cloudfunctions.net/submitLead>
-- The contact form posts to `/submitLead` via Hosting rewrite → Cloud Function.
+Per fermare qualsiasi server locale, usare `Ctrl+C` nel terminale corrispondente.
 
----
+## Struttura
 
-## Switching the demo from MOCKED to a real Cloud Function
-
-The interactive document-extraction demo is currently **mocked entirely on the frontend**. All the mock logic is isolated in **one function**:
-
-```
-frontend/src/lib/extractDocument.js  →  extractFromDocument(input, onStatus)
-```
-
-When the real extraction service is ready (Cloud Run or another Cloud Function), swap the body of `extractFromDocument`:
-
-```js
-import { httpsCallable } from "firebase/functions";
-import { functions } from "@/lib/firebase";
-
-export async function extractFromDocument(input, onStatus = () => {}) {
-  onStatus("Caricamento documento...");
-  const fn = httpsCallable(functions, "extractFromDocument");
-  const { data } = await fn({
-    text: typeof input === "string" ? input : null,
-    fileName: typeof input === "string" ? null : input.name,
-  });
-  return data;
-}
+```text
+apps/site/       Sito Astro, contenuti, componenti e asset
+functions/       Cloud Functions Firebase e relative dipendenze
+docs/            Architettura, sviluppo locale e sicurezza
+scripts/         Strumenti di progetto
+firestore.*      Regole e indici Firestore
+firebase.json    Hosting, rewrite ed emulatori
 ```
 
-No UI code changes required.
+## Documentazione
 
----
+- [Contesto e passaggio di consegne](docs/project-context.md)
+- [Architettura](docs/architecture/overview.md)
+- [Sviluppo locale](docs/development/local.md)
+- [Guida operativa e passaggio di consegne](docs/development/implementation-guide.md)
+- [Controlli di sicurezza](docs/security/controls.md)
+- [Asset e logo](docs/brand/README.md)
 
-## Firestore security rules
+## Variabili d'ambiente
 
-`firestore.rules` is **production-grade** even though the database is currently in test mode:
+La configurazione client Firebase già in uso resta pubblica e invariata. Per App Check
+in produzione, impostare `PUBLIC_RECAPTCHA_SITE_KEY` in `apps/site/.env.local` o nella
+configurazione di build. Non inserire mai password, service account o altri segreti in
+variabili `PUBLIC_*`. `PUBLIC_SITE_URL` e `PUBLIC_ALLOW_INDEXING=true` si impostano solo
+quando è confermato il dominio definitivo; senza entrambi il sito è marcato `noindex`.
 
-- `leads` — client `read/update/delete` denied; `create` allowed only with strict schema validation.
-- `rate_limits` — fully locked down; only Admin SDK writes (Cloud Function).
-- Default deny on everything else.
+## Backend e sicurezza
 
-Deploy them before going live:
+Le Functions mantengono i nomi, le regioni, i controlli App Check, CORS, rate limit e
+validazioni correnti. Le regole Firestore negano accesso diretto alle raccolte lead e
+rate-limit: il sito invia i dati alle Functions, che scrivono con Admin SDK. Per i punti
+ancora da configurare prima del rilascio, consultare
+[Controlli di sicurezza](docs/security/controls.md) e
+[contesto progetto](docs/project-context.md).
 
-```bash
-firebase deploy --only firestore:rules
-```
-
----
-
-## Setup App Check (anti-bot)
-
-Both `submitLead` and `extractDocument` enforce Firebase App Check via reCAPTCHA Enterprise. Without a valid token the function returns `401 Unauthorized`. The Functions emulator (`FUNCTIONS_EMULATOR=true`) skips enforcement so local dev keeps working.
-
-**One-off setup (admin):**
-
-1. Create a reCAPTCHA Enterprise site key for the production domain(s).
-   Console: <https://console.cloud.google.com/security/recaptcha?project=hq-flow-dev>
-   - Type: **Score-based** (invisible)
-   - Domains: `hq-flow-dev.web.app`, `hq-flow-dev.firebaseapp.com`, plus any custom domain you'll add later (e.g. `hqflow.it`).
-   - Copy the site key.
-
-2. Register the Web app in Firebase App Check.
-   Console: <https://console.firebase.google.com/project/hq-flow-dev/appcheck>
-   → **Apps** → Web app `hq-flow-dev` → **Register** → provider **reCAPTCHA Enterprise** → paste the site key.
-
-3. Enforce App Check on the functions in console (already enforced server-side in code, but enabling it in console too gives Firebase a UI for monitoring + replay protection toggles).
-   Same console → **APIs** → Cloud Functions → toggle **Enforce** for `submitLead` and `extractDocument`.
-
-**Local dev:**
-
-Copy the site key into `frontend/.env`:
-```
-REACT_APP_RECAPTCHA_SITE_KEY=6Lc...your-key...
-```
-
-The first run of `npm start` prints a debug token in the browser console:
-```
-App Check debug token: 12345678-AAAA-BBBB-CCCC-DDDDDDDDDDDD
-```
-Whitelist it in Firebase Console → **App Check** → **Apps** → web app → ⋯ → **Manage debug tokens** → paste.
-
----
-
-## Firestore TTL on `rate_limits`
-
-The functions write `expiresAt` on each `rate_limits` document. Configure the TTL policy once in the Firestore console so old buckets auto-delete:
-
-<https://console.cloud.google.com/firestore/databases/-default-/ttl?project=hq-flow-dev>
-→ **Crea criterio** → collection: `rate_limits`, field: `expiresAt` → **Crea**.
-
----
-
-## Pre-launch checklist
-
-- [x] Deploy `firestore.rules`.
-- [x] Verify `submitLead` is deployed in `europe-west8` and reachable through `/submitLead`.
-- [x] Swap mocked `extractFromDocument` for the real Cloud Function (Vertex AI Gemini 2.5 Pro).
-- [ ] Test the contact form end-to-end: 1 valid + 1 invalid + rate-limit at the 6th attempt.
-- [ ] Test `extractDocument` end-to-end: native PDF + scanned PDF + 4th attempt → 429.
-- [ ] Create reCAPTCHA Enterprise site key + register in Firebase App Check (see above).
-- [ ] Set `REACT_APP_RECAPTCHA_SITE_KEY` in the deploy environment / `.env`.
-- [ ] Configure Firestore TTL policy on `rate_limits.expiresAt` (see above).
-- [ ] Replace footer placeholders (`Privacy`, `Cookie`, `Modello 231`, `Codice Etico`) with real legal pages.
-- [ ] Replace `og-image.png` with the real Open Graph image.
-- [ ] Set the real P.IVA in the footer once registered.
-- [ ] Decide whether to expose Auth (SDK is already initialized).
-
----
-
-© 2026 HQ | Flow — Parte del gruppo HQ | Industrial Assets.
+Il lavoro corrente è locale: non eseguire push Git o deploy Firebase senza una richiesta
+esplicita.

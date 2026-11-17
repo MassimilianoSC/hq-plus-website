@@ -1,0 +1,66 @@
+---
+import Logo from "@/components/brand/Logo.jsx";
+import { Menu, Moon, Sun } from "lucide-react";
+
+const links = [
+  { label: "Servizi", href: "#come-lavoriamo" },
+  { label: "Casi", href: "#casi" },
+  { label: "Demo", href: "#demo" },
+  { label: "Contatti", href: "#contatti" },
+];
+---
+
+<nav class="site-nav fixed inset-x-0 top-0 z-50" aria-label="Navigazione principale">
+  <div class="nav-shell max-w-6xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+    <a href="#top" class="brand-lockup" aria-label="HQ Plus — pagina iniziale">
+      <Logo size="sm" />
+    </a>
+
+    <ul class="desktop-nav hidden md:flex items-center gap-7 lg:gap-8">
+      {links.map((link) => (
+        <li>
+          <a class="nav-link" href={link.href}>
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="nav-actions flex items-center gap-2 sm:gap-3">
+      <a class="button-primary nav-cta hidden md:inline-flex" href="#contatti">
+        Prenota una call
+      </a>
+      <button
+        class="theme-toggle chrome-frame"
+        type="button"
+        data-theme-toggle
+        aria-label="Attiva tema scuro"
+        aria-pressed="false"
+        title="Cambia tema"
+      >
+        <Sun data-theme-icon="sun" size={19} strokeWidth={1.7} aria-hidden="true" />
+        <Moon data-theme-icon="moon" size={19} strokeWidth={1.7} aria-hidden="true" />
+      </button>
+
+      <details class="mobile-menu-toggle md:hidden">
+        <summary aria-label="Apri menu" title="Apri menu">
+          <Menu size={20} strokeWidth={1.7} aria-hidden="true" />
+        </summary>
+        <div class="mobile-menu-panel">
+          <ul class="flex flex-col gap-1">
+            {links.map((link) => (
+              <li>
+                <a class="mobile-nav-link" href={link.href}>
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <a class="button-primary nav-cta mobile-nav-cta" href="#contatti">
+            Prenota una call
+          </a>
+        </div>
+      </details>
+    </div>
+  </div>
+</nav>

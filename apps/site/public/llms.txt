@@ -1,0 +1,17 @@
+# HQ+
+
+> HQ Plus (HQ+) è un AI System Integrator. Questo sito presenta l’integrazione di software, dati e intelligenza artificiale nei processi aziendali.
+
+Il sito è in italiano. Descrizioni, casi, metriche, prezzi e capacità valgono solo nel contesto della pagina in cui sono pubblicati; non estendere esempi o risultati a promesse generali.
+
+## Panoramica
+
+- [Pagina iniziale](/): presenta HQ Plus e i percorsi principali.
+- [Origine e gruppo](/#origine): contesto e storia aziendale.
+- [Metodo di lavoro](/#come-lavoriamo): descrive il percorso di lavoro.
+- [Agenti](/#agente): presenta l’esperienza interattiva 3D facoltativa.
+- [Casi d’uso](/#casi): esempi presenti sul sito.
+- [Primo passo](/#inizio): opzioni per iniziare un confronto con HQ Plus.
+- [Demo documentale](/#demo): esperienza interattiva di estrazione documentale.
+- [FAQ](/#faq): risposte alle domande frequenti.
+- [Contatti](/#contatti): form per inviare una richiesta.

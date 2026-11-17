@@ -1,0 +1,67 @@
+/* Stagger reveal; content remains visible when JavaScript is unavailable. */
+.reveal-stagger .reveal-item {
+  transition:
+    opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+html[data-motion="on"] .reveal:not(.is-visible) {
+  opacity: 0;
+  transform: translateY(16px);
+}
+html[data-motion="on"] .reveal-stagger:not(.is-visible) .reveal-item {
+  opacity: 0;
+  transform: translateY(14px);
+}
+.reveal-stagger.is-visible .reveal-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-stagger.is-visible .reveal-item-1 {
+  transition-delay: 60ms;
+}
+.reveal-stagger.is-visible .reveal-item-2 {
+  transition-delay: 140ms;
+}
+.reveal-stagger.is-visible .reveal-item-3 {
+  transition-delay: 220ms;
+}
+.reveal-stagger.is-visible .reveal-item-4 {
+  transition-delay: 300ms;
+}
+.reveal-stagger.is-visible .reveal-item-5 {
+  transition-delay: 380ms;
+}
+.reveal-stagger.is-visible .reveal-item-6 {
+  transition-delay: 460ms;
+}
+
+/* Rispetta prefers-reduced-motion: disattiva tutte le animazioni decorative */
+@media (prefers-reduced-motion: reduce) {
+  .card-glow:hover::before {
+    animation: none !important;
+  }
+  .reveal,
+  .reveal-stagger .reveal-item {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .animate-fade-up {
+    animation: none !important;
+  }
+}
+
+html.save-data .animate-fade-up {
+  animation: none !important;
+}
+
+/* Fade-in on scroll */
+.reveal {
+  transition:
+    opacity 700ms ease,
+    transform 700ms ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}

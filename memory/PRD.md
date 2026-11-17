@@ -1,31 +1,50 @@
-# HQ | Flow — Corporate Site PRD
+# HQ Plus — Product brief
 
-## Original problem statement
-Build a single-page corporate website for HQ | Flow, an Italian B2B sub-brand of HQ | Industrial Assets, specialized in workflow automation with AI agents for medium-large enterprises and SMEs. All copy in Italian, dark mode, design vocabulary inspired by Linear/Vercel/Resend, full Firebase backend (Firestore + Cloud Functions + Auth + Hosting).
+## Obiettivo
 
-## User personas
-- **Warm prospect** landing after a sales call from the HQ Industrial Assets relationship network — needs heritage proof, concrete cases, ROI stats.
-- **Cold Italian SME** decision maker — needs a working demo, plain pricing (free audit, fixed price first workflow), and reachable contact form.
+Sito corporate in italiano per presentare HQ Plus come integratore di sistemi AI e
+automazione dei processi aziendali. La pagina deve dimostrare esperienza operativa,
+spiegare l'offerta in modo concreto e raccogliere richieste commerciali.
 
-## Architecture
-- Frontend: React (CRA + craco) + TailwindCSS + shadcn/ui + lucide-react. Geist font via Google Fonts.
-- Backend: Firebase Cloud Functions 2nd gen (`submitLead`, region europe-west8), Firestore (eur3), Hosting + rewrites, Auth providers initialized.
-- Demo extraction is intentionally mocked on the frontend in `extractFromDocument()`.
+## Pubblico
 
-## What's been implemented (Feb 2026)
-- Italian dark-mode single-page site with 11 sections: Navbar, Hero, HeritageStrip, OriginStory, HowWeWork, InteractiveDemo (mocked), UseCases (4 cards w/ metrics), HowWeStart (2 pricing cards), FAQ (6-item accordion), Contact form, Footer.
-- Logo HQ | Flow inline (heritage-navy pill + cyan Flow).
-- Brand tokens (cyan #00D4FF, dark backgrounds, Geist mono) + scroll-reveal animations + hero glow + grid bg.
-- Firebase package: `firebase.json`, `.firebaserc`, `firestore.rules` (production-grade), `firestore.indexes.json`, `functions/index.js` (CORS, validation, rate-limit 5/h/IP, anonymized IP, server timestamp), `functions/package.json`.
-- README + `.env.example`.
+- Referenti aziendali già in contatto con il gruppo HQ | Industrial Assets, interessati a
+  prove di affidabilità e casi d'uso reali.
+- PMI e aziende strutturate che cercano un primo processo automatizzabile, una demo e un
+  percorso d'ingresso con costi e tempi comprensibili.
 
-## Prioritized backlog (P0/P1/P2)
-- **P0 before live**: deploy `firestore.rules`; deploy `submitLead` Cloud Function; replace footer legal links; configure Firestore TTL on `rate_limits.expiresAt`; replace OG image.
-- **P1**: swap mocked `extractFromDocument` with real Cloud Run / Cloud Function endpoint.
-- **P2**: expose Firebase Auth (login for an internal admin lead inbox view); add proper case-study detail pages; add a thank-you page after form submit; add multilingual EN switch for international prospects.
+## Marchio e interfaccia
 
-## Files of interest
-- `frontend/src/lib/extractDocument.js` — single-point mock to swap.
-- `frontend/src/components/sections/Contact.jsx` — POSTs to `/submitLead`.
-- `functions/index.js` — production-ready Cloud Function.
-- `firestore.rules` — strict create-only on `leads`.
+- Nome pubblico: **HQ+**, per esteso **HQ Plus**.
+- Descrittore: **AI System Integrator**.
+- Tema chiaro predefinito e tema scuro alternativo, entrambi basati sul blu e viola del
+  logo vettoriale HQ+.
+- Asset trasparente del logo con tagline differenziata per tema; originali in
+  `docs/brand/source/`, asset pubblicati in `apps/site/public/images/brand/`.
+- Lingua principale italiana. L'eventuale versione inglese resta una decisione successiva.
+
+## Contenuti e flussi
+
+- Origine e credibilità del gruppo, metodo di lavoro, casi d'uso, demo documentale, offerta,
+  FAQ e contatto.
+- Il form contatti invia i dati a `submitLead`.
+- La demo invia il documento a `extractDocument`; la generazione di spunti con
+  `suggestAutomations` parte solo se l'utente la richiede.
+- Il gate email della demo usa `submitDemoLead`.
+- Menu, contenuti, temi e collegamenti principali devono restare utilizzabili senza
+  dipendenze da un backend per il rendering iniziale.
+
+## Architettura attiva
+
+- Astro genera HTML statico in `apps/site/dist`; React è riservato alle sezioni interattive.
+- Firebase Hosting serve il sito e inoltra le route delle Cloud Functions.
+- Le Functions e Firestore restano l'autorità per validazione, rate limit, App Check e
+  trattamento dei dati. Non aggiungere scritture Firestore dirette dal browser.
+- Comandi e dettagli tecnici sono documentati in `README.md` e `docs/`.
+
+## Decisioni da confermare prima della pubblicazione
+
+- Indirizzo email aziendale definitivo: il sito mantiene per ora `info@hqflow.it`, già
+  configurato come recapito operativo; non sostituirlo con un indirizzo presunto.
+- Dominio pubblico, metadati SEO definitivi, pagine legali e dati societari.
+- Verifica delle metriche, delle certificazioni e delle affermazioni commerciali pubblicate.

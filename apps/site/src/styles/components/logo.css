@@ -1,0 +1,27 @@
+/* Transparent HQ Plus lockup; the tagline color follows the active theme. */
+.hq-logo {
+  display: inline-block;
+  aspect-ratio: 865 / 442;
+  background-image: url("/images/brand/hq-plus-system-integrator.svg");
+  background-image: image-set(
+    url("/images/brand/hq-plus-system-integrator.webp") type("image/webp"),
+    url("/images/brand/hq-plus-system-integrator.svg") type("image/svg+xml")
+  );
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  max-width: 100%;
+  flex-shrink: 0;
+}
+
+html[data-theme="dark"] .hq-logo {
+  background-image: url("/images/brand/hq-plus-system-integrator-dark.svg");
+  background-image: image-set(
+    url("/images/brand/hq-plus-system-integrator-dark.webp") type("image/webp"),
+    url("/images/brand/hq-plus-system-integrator-dark.svg") type("image/svg+xml")
+  );
+}
+
+.hq-logo[role="img"] {
+  user-select: none;
+}

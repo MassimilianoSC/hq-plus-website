@@ -1,0 +1,91 @@
+/* Primary CTA glow */
+.cta-glow {
+  box-shadow:
+    0 0 0 1px var(--accent-border-40),
+    0 8px 32px var(--accent-glow),
+    0 0 64px var(--accent-glow);
+  transition:
+    box-shadow 220ms ease,
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+.cta-glow:hover {
+  box-shadow:
+    0 0 0 1px var(--accent-border-40),
+    0 12px 48px var(--accent-glow),
+    0 0 80px var(--accent-glow);
+  transform: translateY(-2px);
+}
+.cta-glow:active {
+  transform: scale(0.98);
+}
+
+/* Card hover */
+.card-hover {
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    background-color 220ms ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-border-40);
+}
+
+/* Card glow border — alone luminoso che ruota lentamente al hover.
+   Tecnica: pseudo-element con conic-gradient + mask "subtract" per disegnare solo il bordo. */
+.card-glow {
+  position: relative;
+  isolation: isolate;
+}
+.card-glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--glow-angle, 0deg),
+    transparent 0deg,
+    transparent 60deg,
+    rgba(var(--accent-rgb), 0.65) 90deg,
+    rgba(var(--accent-rgb), 0.85) 120deg,
+    rgba(var(--accent-rgb), 0.65) 150deg,
+    transparent 180deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 380ms ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.card-glow:hover::before {
+  opacity: 1;
+  animation: glowSpin 4s linear infinite;
+}
+@property --glow-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes glowSpin {
+  to {
+    --glow-angle: 360deg;
+  }
+}
+/* Fallback per browser che non supportano @property: ruota direttamente lo pseudo */
+@supports not (background: conic-gradient(from var(--glow-angle), red, blue)) {
+  .card-glow:hover::before {
+    animation: glowSpinFallback 4s linear infinite;
+  }
+  @keyframes glowSpinFallback {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}

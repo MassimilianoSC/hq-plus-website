@@ -1,0 +1,64 @@
+/* DocumentMarquee — loop infinito orizzontale di tipi documento.
+   Tecnica: track con due copie identiche, traslate -50% in 50s. */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 50s linear infinite;
+}
+.marquee-section:hover .marquee-track {
+  animation-play-state: paused;
+}
+.marquee-row {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding-right: 2.5rem;
+}
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-tertiary);
+  font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  transition: color 200ms ease;
+}
+.marquee-item:hover {
+  color: var(--text-secondary);
+}
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+/* Sfumatura ai bordi — fade out sull'edge per look "infinito" */
+.marquee-section {
+  position: relative;
+}
+.marquee-section::before,
+.marquee-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  pointer-events: none;
+  z-index: 1;
+}
+.marquee-section::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-secondary), transparent);
+}
+.marquee-section::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-secondary), transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+  }
+}

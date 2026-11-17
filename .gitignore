@@ -1,97 +1,48 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# IDE and editors
-.idea/
-.vscode/
-
 # Dependencies
 node_modules/
-/node_modules
-/.pnp
-.pnp.js
-.yarn/install-state.gz
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+.npm/
 
-# Testing
-/coverage
-
-# Next.js
-/.next/
-/out/
-next-env.d.ts
-*.tsbuildinfo
-
-# Production builds
-/build
+# Build output and generated caches
 dist/
-dist
-
-# Environment files (comprehensive coverage)
-
-*token.json*
-*credentials.json*
-
-# Logs and debug files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-dump.rdb
-
-# System files
-.DS_Store
-*.pem
-
-# Python
-__pycache__/
-*pyc*
-venv/
-.venv/
-
-# Development tools
-chainlit.md
-.chainlit
-.ipynb_checkpoints/
-.ac
-
-# Deployment
-.vercel
-
-# Data and databases
-agenthub/agents/youtube/db
-
-# Archive files and large assets
-**/*.zip
-**/*.tar.gz
-**/*.tar
-**/*.tgz
-*.pack
-*.deb
-*.dylib
-
-# Build caches
+apps/site/dist/
+**/.astro/
+coverage/
+*.tsbuildinfo
 .cache/
 
-
-# Environment and credential files
+# Local environment and credentials
 .env
 .env.*
 *.env
 !**/.env.example
+!**/*.env.example
+*.local
+*token.json*
+*credentials.json*
 credentials.json
 *.pem
 *.key
 .credentials
 
-# Firebase CLI cache
+# Firebase local tooling
 .firebase/
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+database-debug.log*
 
-# Local test scratch files
+# Local logs and scratch files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 payload.json
 PER_TEST.txt
-IMMAGINI/
 
+# IDE and operating system files
+.idea/
+.vscode/
+.DS_Store
+
+# Original design inputs are kept locally until they are processed
+IMMAGINI/

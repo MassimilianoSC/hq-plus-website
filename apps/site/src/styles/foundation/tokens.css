@@ -1,0 +1,175 @@
+/* HQ Plus palette: light is primary; dark uses the same blue-violet brand family. */
+:root {
+  color-scheme: light;
+  --bg-primary: #f8f9fc;
+  --bg-secondary: #eff2f8;
+  --bg-elevated: #ffffff;
+  --text-primary: #111a2e;
+  --text-secondary: #46536a;
+  --text-tertiary: #68758a;
+  --accent: #3150be;
+  --accent-hover: #273f9d;
+  --accent-foreground: #ffffff;
+  --accent-rgb: 49, 80, 190;
+  --accent-glow: rgba(49, 80, 190, 0.14);
+  --accent-tint-04: rgba(49, 80, 190, 0.04);
+  --accent-tint-06: rgba(49, 80, 190, 0.06);
+  --accent-tint-08: rgba(49, 80, 190, 0.08);
+  --accent-border-20: rgba(49, 80, 190, 0.2);
+  --accent-border-40: rgba(49, 80, 190, 0.4);
+  --button-primary-gradient: linear-gradient(
+    112deg,
+    #3150be 0%,
+    #5551c1 52%,
+    #8052c5 100%
+  );
+  --button-primary-gradient-hover: linear-gradient(
+    112deg,
+    #273f9d 0%,
+    #4542a9 52%,
+    #6d43aa 100%
+  );
+  --button-chrome-border: linear-gradient(
+    112deg,
+    #8998b5 0%,
+    #ffffff 32%,
+    #b39be5 65%,
+    #8492b0 100%
+  );
+  --brand-violet: #8052c5;
+  --brand-violet-rgb: 128, 82, 197;
+  --hero-gradient-start: #3150be;
+  --hero-gradient-end: #8052c5;
+  --heritage-navy: #1a2b5c;
+  --border-subtle: #dfe5ee;
+  --border-strong: #bdc8d8;
+  --nav-surface: rgba(248, 249, 252, 0.9);
+  --mobile-surface: rgba(248, 249, 252, 0.985);
+  --cosmos-bg-blue: rgba(64, 92, 185, 0.07);
+  --cosmos-bg-violet: rgba(122, 86, 187, 0.045);
+  --cosmos-bg-cyan: rgba(71, 139, 182, 0.04);
+  --cosmos-section-blue: rgba(54, 83, 177, 0.045);
+  --cosmos-section-violet: rgba(120, 76, 181, 0.038);
+  --cosmos-ring: rgba(76, 96, 175, 0.075);
+  --cosmos-hover-glow: rgba(76, 96, 190, 0.09);
+  --cosmos-canvas-blue: 60, 87, 183;
+  --cosmos-canvas-violet: 126, 82, 190;
+  --cosmos-canvas-cyan: 76, 141, 183;
+  --cosmos-canvas-chrome: 155, 166, 184;
+  --cosmos-canvas-star-opacity: 0.62;
+  --cosmos-canvas-nebula-opacity: 0.085;
+  --cosmos-canvas-pointer-opacity: 0.06;
+  --cosmos-footer-surface: rgba(248, 249, 252, 0.84);
+  --integration-wire: rgba(56, 78, 135, 0.2);
+  --integration-wire-bright: rgba(49, 80, 190, 0.62);
+  --integration-node-surface: rgba(255, 255, 255, 0.88);
+  --integration-node-border: rgba(135, 151, 181, 0.44);
+  --integration-console-surface: rgba(250, 251, 254, 0.76);
+  --integration-hub-surface: rgba(244, 247, 253, 0.96);
+  --chrome-gradient: linear-gradient(
+    118deg,
+    #a8b3c2 0%,
+    #f8fafc 18%,
+    #c0c9d5 34%,
+    #ffffff 49%,
+    #8d9aac 66%,
+    #e6ebf1 82%,
+    #aeb9c8 100%
+  );
+  --chrome-border: linear-gradient(135deg, #aab5c4, #ffffff 42%, #8491a3);
+  --chrome-shadow: 0 8px 24px rgba(21, 36, 67, 0.1);
+
+  --background: 220 43% 98%;
+  --foreground: 222 44% 12%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 44% 12%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 44% 12%;
+  --primary: 226 59% 47%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 214 40% 95%;
+  --secondary-foreground: 222 44% 12%;
+  --muted: 214 32% 95%;
+  --muted-foreground: 215 16% 42%;
+  --accent-hsl: 226 59% 47%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 214 28% 89%;
+  --input: 214 28% 85%;
+  --ring: 226 59% 47%;
+  --radius: 0.5rem;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-primary: #0b1020;
+  --bg-secondary: #111a30;
+  --bg-elevated: #18233d;
+  --text-primary: #f6f8ff;
+  --text-secondary: #b5c0d6;
+  --text-tertiary: #8d9ab3;
+  --accent: #a08aff;
+  --accent-hover: #b7a6ff;
+  --accent-foreground: #111126;
+  --accent-rgb: 160, 138, 255;
+  --accent-glow: rgba(160, 138, 255, 0.2);
+  --accent-tint-04: rgba(160, 138, 255, 0.04);
+  --accent-tint-06: rgba(160, 138, 255, 0.06);
+  --accent-tint-08: rgba(160, 138, 255, 0.08);
+  --accent-border-20: rgba(160, 138, 255, 0.2);
+  --accent-border-40: rgba(160, 138, 255, 0.4);
+  --brand-violet: #b78cff;
+  --brand-violet-rgb: 183, 140, 255;
+  --hero-gradient-start: #b6a4ff;
+  --hero-gradient-end: #82c8fa;
+  --heritage-navy: #1a2b5c;
+  --border-subtle: #283149;
+  --border-strong: #3b4763;
+  --nav-surface: rgba(11, 16, 32, 0.82);
+  --mobile-surface: rgba(11, 16, 32, 0.97);
+  --cosmos-bg-blue: rgba(48, 71, 181, 0.25);
+  --cosmos-bg-violet: rgba(105, 55, 173, 0.22);
+  --cosmos-bg-cyan: rgba(28, 107, 174, 0.14);
+  --cosmos-section-blue: rgba(56, 91, 218, 0.17);
+  --cosmos-section-violet: rgba(132, 73, 205, 0.16);
+  --cosmos-ring: rgba(168, 153, 255, 0.18);
+  --cosmos-hover-glow: rgba(138, 121, 255, 0.24);
+  --cosmos-canvas-blue: 112, 144, 255;
+  --cosmos-canvas-violet: 160, 138, 255;
+  --cosmos-canvas-cyan: 92, 190, 246;
+  --cosmos-canvas-chrome: 230, 235, 250;
+  --cosmos-canvas-star-opacity: 0.84;
+  --cosmos-canvas-nebula-opacity: 0.2;
+  --cosmos-canvas-pointer-opacity: 0.1;
+  --cosmos-footer-surface: rgba(8, 12, 28, 0.82);
+  --integration-wire: rgba(152, 170, 228, 0.24);
+  --integration-wire-bright: rgba(159, 147, 255, 0.76);
+  --integration-node-surface: rgba(13, 20, 42, 0.9);
+  --integration-node-border: rgba(136, 151, 195, 0.42);
+  --integration-console-surface: rgba(13, 19, 39, 0.72);
+  --integration-hub-surface: rgba(17, 24, 48, 0.96);
+  --chrome-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+
+  --background: 224 39% 8%;
+  --foreground: 226 100% 98%;
+  --card: 222 41% 17%;
+  --card-foreground: 226 100% 98%;
+  --popover: 222 41% 17%;
+  --popover-foreground: 226 100% 98%;
+  --primary: 252 100% 77%;
+  --primary-foreground: 240 35% 11%;
+  --secondary: 222 42% 13%;
+  --secondary-foreground: 226 100% 98%;
+  --muted: 222 30% 18%;
+  --muted-foreground: 220 18% 72%;
+  --accent-hsl: 252 100% 77%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 222 28% 22%;
+  --input: 222 28% 26%;
+  --ring: 252 100% 77%;
+}
+
+* {
+  border-color: hsl(var(--border));
+}

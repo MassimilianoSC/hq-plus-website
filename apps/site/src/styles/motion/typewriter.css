@@ -1,0 +1,23 @@
+/* Typewriter caret — blink stile terminale durante la digitazione */
+.typewriter-caret {
+  display: inline-block;
+  color: var(--accent);
+  font-weight: 600;
+  animation: caretBlink 1s steps(2) infinite;
+  margin-left: 1px;
+}
+@keyframes caretBlink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-caret {
+    animation: none !important;
+  }
+}

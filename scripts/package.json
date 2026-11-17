@@ -1,5 +1,5 @@
 {
-  "name": "hq-flow-scripts",
+  "name": "hq-plus-scripts",
   "private": true,
   "description": "One-off generators (e.g. sample PDF for the demo).",
   "scripts": {

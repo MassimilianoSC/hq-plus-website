@@ -1,0 +1,54 @@
+/* ─────────────────────────────────────────────
+   Reusable utility classes
+   ───────────────────────────────────────────── */
+
+.bg-primary {
+  background-color: var(--bg-primary);
+}
+.bg-secondary {
+  background-color: var(--bg-secondary);
+}
+.bg-elevated {
+  background-color: var(--bg-elevated);
+}
+.text-primary {
+  color: var(--text-primary);
+}
+.text-secondary {
+  color: var(--text-secondary);
+}
+.text-tertiary {
+  color: var(--text-tertiary);
+}
+.text-accent {
+  color: var(--accent);
+}
+.border-subtle {
+  border-color: var(--border-subtle);
+}
+.border-strong {
+  border-color: var(--border-strong);
+}
+
+.chrome-text {
+  background: var(--chrome-gradient);
+  background-clip: text;
+  color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.chrome-frame {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--bg-elevated), var(--bg-elevated)) padding-box,
+    var(--chrome-border) border-box;
+  box-shadow: var(--chrome-shadow);
+}
+
+.chrome-surface {
+  border: 1px solid var(--border-strong);
+  background: var(--chrome-gradient);
+  box-shadow: var(--chrome-shadow);
+  color: var(--heritage-navy);
+}
